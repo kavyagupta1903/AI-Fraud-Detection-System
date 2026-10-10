@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Fraud Detection System - Slide Deck</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bg-dark: #0b1329;
+            --card-bg: #172541;
+            --card-border: #334155;
+            --primary-accent: #3b82f6;
+            --cyan-accent: #06b6d4;
+            --emerald-accent: #10b981;
+            --amber-accent: #f59e0b;
+            --rose-accent: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .slide-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            max-height: 680px;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            flex-direction: column;
+            justify-content: space-between;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .slide-header {
+            margin-bottom: 2rem;
+        }
+        .slide-tag {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--cyan-accent);
+        }
+        .slide-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 0.25rem;
+        }
+        .card-custom {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            height: 100%;
+        }
+        .nav-controls {
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 0.4rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-nav:hover {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="slide-container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active text-center justify-content-center" id="slide-1">
+        <div class="my-auto">
+            <span class="badge bg-primary-subtle text-primary border border-primary px-3 py-2 mb-3">
+                ENTERPRISE JAVA SOFTWARE ENGINEERING
+            </span>
+            <h1 class="display-3 fw-bold text-white mb-3">AI-Powered Fraud Detection System</h1>
+            <p class="fs-4 text-secondary mb-4">High-Performance Autonomous Payment Security & Real-Time Risk Analytics</p>
+            <div class="d-inline-flex gap-2 p-2 px-3 rounded-pill bg-dark border border-secondary text-info small">
+                <span>Standard Java</span> • <span>Polymorphic Engine</span> • <span>Async Pipeline</span> • <span>Pure JDBC Pooling</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" id="slide-2">
+        <div class="slide-header">
+            <div class="slide-tag">THE PROBLEM & MOTIVATION</div>
+            <div class="slide-title">The Financial Challenge: Fraud at Scale</div>
+        </div>
+        <div class="row g-4 flex-grow-1">
+            <div class="col-md-4">
+                <div class="card-custom border-danger">
+                    <h4 class="text-danger fw-bold mb-3"><i class="bi bi-shield-slash me-2"></i>$38B Annual Threat</h4>
+                    <p class="text-secondary">Global payment fraud costs financial institutions over $38B annually through bot card-testing and cross-border money laundering.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom border-warning">
+                    <h4 class="text-warning fw-bold mb-3"><i class="bi bi-person-x me-2"></i>False Positive Friction</h4>
+                    <p class="text-secondary">Rigid threshold rules block legitimate customers, causing 15%+ checkout abandonment, severe revenue leakage, and lost customer loyalty.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom border-success">
+                    <h4 class="text-success fw-bold mb-3"><i class="bi bi-lightning-charge me-2"></i>The Solution</h4>
+                    <p class="text-secondary">Sub-10ms evaluation latency combining deterministic rule heuristics with multivariate continuous ML anomaly scoring in pure Java.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" id="slide-3">
+        <div class="slide-header">
+            <div class="slide-tag">ARCHITECTURAL DESIGN</div>
+            <div class="slide-title">4-Tier Enterprise Architectural Blueprint</div>
+        </div>
+        <div class="row g-3 flex-grow-1">
+            <div class="col-md-3">
+                <div class="card-custom border-info">
+                    <h5 class="text-info fw-bold">1. Presentation</h5>
+                    <ul class="small text-secondary ps-3 mt-3">
+                        <li>Jakarta EE Servlets</li>
+                        <li>Bootstrap 5 Dark Mode</li>
+                        <li>Admin & User Portals</li>
+                        <li>Real-Time Status Badges</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-custom border-primary">
+                    <h5 class="text-primary fw-bold">2. Concurrency</h5>
+                    <ul class="small text-secondary ps-3 mt-3">
+                        <li>Producer-Consumer Queue</li>
+                        <li>ThreadPoolExecutor</li>
+                        <li>Atomic & DoubleAdder</li>
+                        <li>Sliding Window Cache</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-custom border-warning">
+                    <h5 class="text-warning fw-bold">3. AI Engines</h5>
+                    <ul class="small text-secondary ps-3 mt-3">
+                        <li>Factory Pattern Supply</li>
+                        <li>RuleBasedEngine</li>
+                        <li>MLAnomalyEngine</li>
+                        <li>Hybrid Ensemble</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card-custom border-success">
+                    <h5 class="text-success fw-bold">4. Pure JDBC</h5>
+                    <ul class="small text-secondary ps-3 mt-3">
+                        <li>Custom Connection Pool</li>
+                        <li>Manual Transaction Control</li>
+                        <li>Commit & Rollback</li>
+                        <li>GenericDAO&lt;T, ID&gt;</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" id="slide-4">
+        <div class="slide-header">
+            <div class="slide-tag">OOP & DESIGN PATTERNS</div>
+            <div class="slide-title">OOP Hierarchy & Design Patterns</div>
+        </div>
+        <div class="row g-3 flex-grow-1">
+            <div class="col-md-6">
+                <div class="card-custom">
+                    <h5 class="text-white fw-bold mb-2">Inheritance & Polymorphism</h5>
+                    <p class="small text-secondary">Abstract base class <code>Transaction</code> extended by <code>CreditCardTransaction</code> (CVV, card network, zip) and <code>WireTransaction</code> (SWIFT, account, destination bank).</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-custom">
+                    <h5 class="text-white fw-bold mb-2">Factory Pattern (EngineFactory)</h5>
+                    <p class="small text-secondary">Dynamically instantiates and hot-swaps between <code>RULE_BASED</code>, <code>ML_ANOMALY</code>, and <code>HYBRID</code> engines without application restarts.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-custom">
+                    <h5 class="text-white fw-bold mb-2">Custom Exception Hierarchy</h5>
+                    <p class="small text-secondary"><code>FraudDetectionException</code> specialized by <code>DatabaseException</code> and <code>ThresholdOutOfBoundsException</code> for strict validation.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-custom">
+                    <h5 class="text-white fw-bold mb-2">Generic DAO Architecture</h5>
+                    <p class="small text-secondary"><code>GenericDAO&lt;T, ID&gt;</code> provides standardized CRUD operations for User, Transaction, SystemConfig, and FraudAlert entities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" id="slide-5">
+        <div class="slide-header">
+            <div class="slide-tag">DETECTION ENGINES</div>
+            <div class="slide-title">Dual-Model Detection: Heuristics vs ML Anomaly</div>
+        </div>
+        <div class="row g-4 flex-grow-1">
+            <div class="col-md-6">
+                <div class="card-custom border-primary">
+                    <h4 class="text-primary fw-bold mb-3">Rule-Based Engine</h4>
+                    <ul class="text-secondary small ps-3">
+                        <li class="mb-2"><strong>Velocity Check:</strong> Flags rapid-fire payments exceeding configured time-window limits.</li>
+                        <li class="mb-2"><strong>Geographic Filter:</strong> Identifies high-risk sanctions destinations (FATF/OFAC).</li>
+                        <li class="mb-2"><strong>Spending Limit:</strong> Flags high-amount deviations exceeding thresholds.</li>
+                        <li class="mb-2"><strong>Rail Validation:</strong> CVV match check and SWIFT identifier syntax tests.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-custom border-info">
+                    <h4 class="text-info fw-bold mb-3">AI ML Anomaly Engine</h4>
+                    <ul class="text-secondary small ps-3">
+                        <li class="mb-2"><strong>Multivariate Features:</strong> Amount ratio sigmoid, velocity density, geo entropy, and device fingerprint risk.</li>
+                        <li class="mb-2"><strong>Dynamic Weights:</strong> Admins dynamically tune feature weights live from the UI.</li>
+                        <li class="mb-2"><strong>Isolation Scoring:</strong> Amplifies risk when compound correlations appear.</li>
+                        <li class="mb-2"><strong>Explainable AI:</strong> Generates transparent feature breakdown weights.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" id="slide-6">
+        <div class="slide-header">
+            <div class="slide-tag">CONCURRENCY & MULTITHREADING</div>
+            <div class="slide-title">Asynchronous Pipeline & Thread-Safety</div>
+        </div>
+        <div class="row g-4 flex-grow-1">
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-primary fw-bold mb-3">Producer-Consumer</h5>
+                    <p class="small text-secondary">Bounded <code>LinkedBlockingQueue&lt;Transaction&gt;</code> absorbs traffic surges with backpressure protection. Daemon workers process evaluations asynchronously.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-info fw-bold mb-3">Thread-Safe Collections</h5>
+                    <p class="small text-secondary"><code>ConcurrentHashMap</code> and <code>CopyOnWriteArrayList</code> deliver lock-free sliding-window velocity checks without database contention.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-success fw-bold mb-3">Atomic Telemetry</h5>
+                    <p class="small text-secondary"><code>AtomicInteger</code> and <code>DoubleAdder</code> track total volume, processed transactions, and precision metrics without lock degradation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" id="slide-7">
+        <div class="slide-header">
+            <div class="slide-tag">DATABASE & PERSISTENCE</div>
+            <div class="slide-title">Pure JDBC Pooling & Manual ACID Transactions</div>
+        </div>
+        <div class="row g-4 flex-grow-1">
+            <div class="col-md-6">
+                <div class="card-custom border-primary">
+                    <h4 class="text-primary fw-bold mb-3">Custom DBConnectionPool</h4>
+                    <p class="small text-secondary">Zero third-party pooling overhead. Features automatic health checks via <code>connection.isValid(2)</code>, connection leak recovery, and schema auto-creation on first launch.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-custom border-success">
+                    <h4 class="text-success fw-bold mb-3">Manual Transaction Boundaries</h4>
+                    <p class="small text-secondary">Enforces <code>connection.setAutoCommit(false)</code>, executing atomic multi-table inserts (Transaction + FraudAlert) with explicit <code>commit()</code> and rollback in catch blocks.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" id="slide-8">
+        <div class="slide-header">
+            <div class="slide-tag">OPERATIONS CONSOLE</div>
+            <div class="slide-title">Admin Dashboard & Dynamic Tuning</div>
+        </div>
+        <div class="row g-3 flex-grow-1">
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-warning fw-bold mb-2">Live Risk Thresholds</h5>
+                    <p class="small text-secondary">Admins dynamically update Flag Threshold (0.70) and Block Threshold (0.90) in real-time with strict boundary validation.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-info fw-bold mb-2">Feature Weight Controls</h5>
+                    <p class="small text-secondary">Tune ML multivariate weights (Amount, Location, Device, Velocity) live from the UI and switch active engines on the fly.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-success fw-bold mb-2">Human Triage Feedback</h5>
+                    <p class="small text-secondary">One-click Approve, Block, or Investigate actions. Approving a flagged transaction automatically calibrates false-positive metrics.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide" id="slide-9">
+        <div class="slide-header">
+            <div class="slide-tag">USER PORTAL</div>
+            <div class="slide-title">User Payment Experience & Security Visibility</div>
+        </div>
+        <div class="row g-4 flex-grow-1">
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-white fw-bold mb-3"><i class="bi bi-wallet2 text-primary me-2"></i>Dual Payment Rails</h5>
+                    <p class="small text-secondary">Form supports instant Credit Card authorization or high-value Wire Transfers with currency selection and device fingerprinting.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-white fw-bold mb-3"><i class="bi bi-shield-check text-success me-2"></i>Real-Time Decision</h5>
+                    <p class="small text-secondary">Color-coded badges (APPROVED, UNDER_REVIEW, BLOCKED) accompanied by transparent explainable AI anomaly scoring breakdowns.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <h5 class="text-white fw-bold mb-3"><i class="bi bi-bell-fill text-danger me-2"></i>Incident Notices</h5>
+                    <p class="small text-secondary">Prioritized security notices inbox sorting alerts by severity (CRITICAL, HIGH, MEDIUM, LOW) with acknowledgment tracking.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide" id="slide-10">
+        <div class="slide-header">
+            <div class="slide-tag">QUALITY ASSURANCE</div>
+            <div class="slide-title">Automated Verification: 7 Test Suites</div>
+        </div>
+        <div class="d-flex flex-column gap-2 flex-grow-1 justify-content-center">
+            <div class="p-2 px-3 rounded bg-dark border border-primary small text-white">✔ <strong>Test 1: OOP & Polymorphism</strong> — Validates specialized base risk factors across payment subclasses.</div>
+            <div class="p-2 px-3 rounded bg-dark border border-info small text-white">✔ <strong>Test 2: Dual Detection Engines</strong> — Verifies safe transactions & high-risk anomaly blocking.</div>
+            <div class="p-2 px-3 rounded bg-dark border border-success small text-white">✔ <strong>Test 3: Pure JDBC Generic DAO</strong> — Verifies CRUD operations and database consistency.</div>
+            <div class="p-2 px-3 rounded bg-dark border border-warning small text-white">✔ <strong>Test 4: Custom Exceptions</strong> — Enforces threshold boundary constraints and error handling.</div>
+            <div class="p-2 px-3 rounded bg-dark border border-primary small text-white">✔ <strong>Test 5: Async Queue Pipeline</strong> — Verifies Producer-Consumer thread pool persistence.</div>
+            <div class="p-2 px-3 rounded bg-dark border border-danger small text-white">✔ <strong>Test 6: Priority Alert Triage</strong> — Verifies PriorityBlockingQueue ordering (CRITICAL first).</div>
+            <div class="p-2 px-3 rounded bg-dark border border-info small text-white">✔ <strong>Test 7: False-Positive Calibration</strong> — Validates metrics synchronization upon analyst approval.</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide" id="slide-11">
+        <div class="slide-header">
+            <div class="slide-tag">DEPLOYMENT & CLOUD</div>
+            <div class="slide-title">Dockerization & Public Cloud Deployment</div>
+        </div>
+        <div class="row g-4 flex-grow-1">
+            <div class="col-md-4">
+                <div class="card-custom border-primary">
+                    <h5 class="text-primary fw-bold mb-3">Multi-Stage Dockerfile</h5>
+                    <p class="small text-secondary">Builds with Maven and Eclipse Temurin JDK 21; packages into a lightweight Alpine JRE container with dynamic $PORT binding.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom border-info">
+                    <h5 class="text-info fw-bold mb-3">Instant Public Bridge</h5>
+                    <p class="small text-secondary">TLS-terminated public HTTPS tunnel provides immediate worldwide access without router port-forwarding.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-custom border-success">
+                    <h5 class="text-success fw-bold mb-3">1-Click Cloud Ready</h5>
+                    <p class="small text-secondary">Preconfigured <code>render.yaml</code> and <code>Procfile</code> for 1-click free 24/7 deployment on Render, Railway, or Fly.io.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide" id="slide-12">
+        <div class="slide-header">
+            <div class="slide-tag">CONCLUSION</div>
+            <div class="slide-title">Summary & Enterprise Takeaways</div>
+        </div>
+        <div class="row g-4 flex-grow-1">
+            <div class="col-md-6">
+                <div class="card-custom border-primary">
+                    <h4 class="text-primary fw-bold mb-3">Key Technical Achievements</h4>
+                    <ul class="text-secondary small ps-3">
+                        <li class="mb-2">Built 100% in Standard Java without heavy framework bloat.</li>
+                        <li class="mb-2">Seamless integration of Concurrency, Pure JDBC, and OOP patterns.</li>
+                        <li class="mb-2">Explainable AI anomaly scoring with real-time tuning.</li>
+                        <li class="mb-2">100% test pass rate across all 7 verification domains.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-custom border-success">
+                    <h4 class="text-success fw-bold mb-3">System Access & Credentials</h4>
+                    <ul class="text-secondary small ps-3">
+                        <li class="mb-2"><strong>1-Click Launch:</strong> Run <code>run.bat</code> or <code>./mvnw compile exec:java</code></li>
+                        <li class="mb-2"><strong>Admin Console:</strong> <code>admin</code> / <code>admin123</code></li>
+                        <li class="mb-2"><strong>Member Portal:</strong> <code>john_doe</code> / <code>password123</code></li>
+                        <li class="mb-2"><strong>Live Public Link:</strong> Active via secure HTTPS tunnel.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer Controls -->
+<div class="nav-controls">
+    <button class="btn-nav" id="prevBtn" onclick="prevSlide()"><i class="bi bi-chevron-left me-1"></i> Previous</button>
+    <div class="text-secondary small" id="slideIndicator">Slide 1 of 12</div>
+    <button class="btn-nav" id="nextBtn" onclick="nextSlide()">Next <i class="bi bi-chevron-right ms-1"></i></button>
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 12;
+
+    function showSlide(index) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById('slide-' + index).classList.add('active');
+        document.getElementById('slideIndicator').innerText = 'Slide ' + index + ' of ' + totalSlides;
+    }
+
+    function nextSlide() {
+        if (currentSlide < totalSlides) {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 1) {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+            nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            prevSlide();
+        }
+    });
+</script>
+</body>
+</html>
