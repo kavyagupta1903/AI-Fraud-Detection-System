@@ -1,0 +1,11 @@
+target/
+data/
+apache-maven-3.9.9/
+*.log
+*.tmp
+tomcat.*
+.idea/
+*.iml
+.vscode/
+cookies.txt
+user_cookies.txt

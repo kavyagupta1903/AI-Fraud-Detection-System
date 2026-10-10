@@ -1,0 +1,8 @@
+target/
+data/
+apache-maven-3.9.9/
+.git/
+.gitignore
+*.log
+*.tmp
+tomcat.*
