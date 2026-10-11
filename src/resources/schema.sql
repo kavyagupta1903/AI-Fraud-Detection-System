@@ -68,6 +68,18 @@ CREATE TABLE IF NOT EXISTS fraud_alerts (
 CREATE INDEX IF NOT EXISTS idx_alert_user ON fraud_alerts(user_id);
 CREATE INDEX IF NOT EXISTS idx_alert_unread ON fraud_alerts(is_read);
 
+-- 5. AUDIT LOGS TABLE (Compliance, PCI-DSS / SOX Immutable Audit Trail)
+CREATE TABLE IF NOT EXISTS audit_logs (
+    audit_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    action_type VARCHAR(50) NOT NULL,
+    performed_by VARCHAR(50) NOT NULL,
+    target_id VARCHAR(64),
+    details TEXT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_time ON audit_logs(timestamp);
+
 MERGE INTO users (user_id, username, password_hash, role, email) KEY(username) VALUES
 (1, 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'ADMIN', 'admin@fraudshield.enterprise.com'),
 (2, 'john_doe', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 'USER', 'john.doe@example.com'),

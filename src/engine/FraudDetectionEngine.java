@@ -25,6 +25,13 @@ public interface FraudDetectionEngine {
     FraudEvaluationResult evaluate(Transaction transaction, Map<String, Object> context) throws FraudDetectionException;
 
     /**
+     * Convenience overload evaluating transaction with empty context.
+     */
+    default FraudEvaluationResult evaluate(Transaction transaction) throws FraudDetectionException {
+        return evaluate(transaction, Collections.emptyMap());
+    }
+
+    /**
      * Name identifier for this engine strategy.
      */
     String getEngineName();

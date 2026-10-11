@@ -40,9 +40,11 @@ public class AdminDashboardServlet extends HttpServlet {
 
             Map<String, Object> metrics = adminService.getSystemMetricsSnapshot();
             List<Transaction> transactions = adminService.getTransactionsFiltered(statusFilter);
+            List<model.AuditLog> auditLogs = adminService.getRecentAuditLogs(50);
 
             req.setAttribute("metrics", metrics);
             req.setAttribute("transactions", transactions);
+            req.setAttribute("auditLogs", auditLogs);
             req.setAttribute("currentFilter", statusFilter);
 
             req.getRequestDispatcher("/admin-dashboard.jsp").forward(req, resp);

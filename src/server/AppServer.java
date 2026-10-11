@@ -133,5 +133,15 @@ public class AppServer {
         // AlertServlet
         Tomcat.addServlet(ctx, "AlertServlet", new AlertServlet());
         ctx.addServletMappingDecoded("/alerts", "AlertServlet");
+
+        // ApiServlet
+        Tomcat.addServlet(ctx, "ApiServlet", new controller.ApiServlet());
+        ctx.addServletMappingDecoded("/api/v1/evaluate", "ApiServlet");
+        ctx.addServletMappingDecoded("/api/v1/metrics", "ApiServlet");
+
+        // ExportServlet
+        Tomcat.addServlet(ctx, "ExportServlet", new controller.ExportServlet());
+        ctx.addServletMappingDecoded("/export/transactions", "ExportServlet");
+        ctx.addServletMappingDecoded("/export/audit", "ExportServlet");
     }
 }

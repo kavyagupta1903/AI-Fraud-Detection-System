@@ -28,6 +28,7 @@ public class AdminMonitoringService {
     private final TransactionDAO transactionDAO;
     private final FraudAlertDAO alertDAO;
     private final SystemConfigDAO configDAO;
+    private final dao.AuditLogDAO auditLogDAO;
     private final AppConfig appConfig;
     private final TransactionQueue queue;
     private final DBConnectionPool pool;
@@ -37,16 +38,19 @@ public class AdminMonitoringService {
         this.transactionDAO = new TransactionDAO(pool);
         this.alertDAO = new FraudAlertDAO(pool);
         this.configDAO = new SystemConfigDAO(pool);
+        this.auditLogDAO = new dao.AuditLogDAO(pool);
         this.appConfig = AppConfig.getInstance();
         this.queue = TransactionQueue.getInstance();
     }
 
     public AdminMonitoringService(TransactionDAO transactionDAO, FraudAlertDAO alertDAO,
-                                  SystemConfigDAO configDAO, AppConfig appConfig,
+                                  SystemConfigDAO configDAO, dao.AuditLogDAO auditLogDAO,
+                                  AppConfig appConfig,
                                   TransactionQueue queue, DBConnectionPool pool) {
         this.transactionDAO = transactionDAO;
         this.alertDAO = alertDAO;
         this.configDAO = configDAO;
+        this.auditLogDAO = auditLogDAO;
         this.appConfig = appConfig;
         this.queue = queue;
         this.pool = pool;
@@ -68,11 +72,17 @@ public class AdminMonitoringService {
 
         appConfig.updateConfig("flag_threshold", String.format("%.2f", flagThreshold), updatedBy);
         appConfig.updateConfig("block_threshold", String.format("%.2f", blockThreshold), updatedBy);
+        try {
+            auditLogDAO.save(new model.AuditLog(null, "CONFIG_UPDATE", updatedBy, "THRESHOLDS",
+                    String.format("Updated flagThreshold=%.2f, blockThreshold=%.2f", flagThreshold, blockThreshold)));
+        } catch (Exception e) {
+            LOGGER.warning("Failed to record audit log for threshold update: " + e.getMessage());
+        }
     }
 
     public void updateAlgorithmWeights(double weightAmount, double weightLocation,
-                                       double weightDevice, double weightVelocity,
-                                       String updatedBy) throws ThresholdOutOfBoundsException, DatabaseException {
+                                        double weightDevice, double weightVelocity,
+                                        String updatedBy) throws ThresholdOutOfBoundsException, DatabaseException {
         validateWeight("Amount", weightAmount);
         validateWeight("Location", weightLocation);
         validateWeight("Device", weightDevice);
@@ -82,6 +92,13 @@ public class AdminMonitoringService {
         appConfig.updateConfig("ml_weight_location", String.format("%.2f", weightLocation), updatedBy);
         appConfig.updateConfig("ml_weight_device", String.format("%.2f", weightDevice), updatedBy);
         appConfig.updateConfig("ml_weight_velocity", String.format("%.2f", weightVelocity), updatedBy);
+        try {
+            auditLogDAO.save(new model.AuditLog(null, "CONFIG_UPDATE", updatedBy, "ML_WEIGHTS",
+                    String.format("Updated weights: amt=%.2f, loc=%.2f, dev=%.2f, vel=%.2f",
+                            weightAmount, weightLocation, weightDevice, weightVelocity)));
+        } catch (Exception e) {
+            LOGGER.warning("Failed to record audit log for weights update: " + e.getMessage());
+        }
     }
 
     public void setActiveEngine(String engineName, String updatedBy) throws DatabaseException, ThresholdOutOfBoundsException {
@@ -91,6 +108,12 @@ public class AdminMonitoringService {
             throw new IllegalArgumentException("Unknown engine: " + engineName);
         }
         appConfig.updateConfig("active_engine", engineName.toUpperCase().trim(), updatedBy);
+        try {
+            auditLogDAO.save(new model.AuditLog(null, "ENGINE_SWITCH", updatedBy, "ENGINE",
+                    "Switched active detection engine to " + engineName.toUpperCase()));
+        } catch (Exception e) {
+            LOGGER.warning("Failed to record audit log for engine switch: " + e.getMessage());
+        }
     }
 
     private void validateWeight(String name, double weight) throws ThresholdOutOfBoundsException {
@@ -124,8 +147,17 @@ public class AdminMonitoringService {
         }
 
         String notes = "Manually APPROVED by Admin: " + adminUsername + " (Overrode prior status: " + tx.getStatus() + ")";
-        return transactionDAO.updateStatusAndRisk(transactionId, tx.getRiskScore(),
+        boolean success = transactionDAO.updateStatusAndRisk(transactionId, tx.getRiskScore(),
                 Transaction.Status.APPROVED, notes, tx.getDecisionEngine());
+        if (success) {
+            try {
+                auditLogDAO.save(new model.AuditLog(null, "MANUAL_APPROVE", adminUsername, transactionId,
+                        "Overrode status " + tx.getStatus() + " -> APPROVED (Risk: " + tx.getRiskScore() + ")"));
+            } catch (Exception e) {
+                LOGGER.warning("Failed to record audit log for manual approval: " + e.getMessage());
+            }
+        }
+        return success;
     }
 
     public boolean reviewBlockTransaction(String transactionId, String adminUsername, String reason) throws DatabaseException {
@@ -134,8 +166,17 @@ public class AdminMonitoringService {
 
         Transaction tx = opt.get();
         String notes = "Manually BLOCKED by Admin: " + adminUsername + ". Reason: " + (reason != null ? reason : "Confirmed Fraud");
-        return transactionDAO.updateStatusAndRisk(transactionId, 1.0,
+        boolean success = transactionDAO.updateStatusAndRisk(transactionId, 1.0,
                 Transaction.Status.BLOCKED, notes, tx.getDecisionEngine());
+        if (success) {
+            try {
+                auditLogDAO.save(new model.AuditLog(null, "MANUAL_BLOCK", adminUsername, transactionId,
+                        "Overrode status " + tx.getStatus() + " -> BLOCKED. Reason: " + (reason != null ? reason : "Fraud Confirmed")));
+            } catch (Exception e) {
+                LOGGER.warning("Failed to record audit log for manual block: " + e.getMessage());
+            }
+        }
+        return success;
     }
 
     public boolean reviewInvestigateTransaction(String transactionId, String adminUsername) throws DatabaseException {
@@ -144,8 +185,25 @@ public class AdminMonitoringService {
 
         Transaction tx = opt.get();
         String notes = "Under Investigation by Admin: " + adminUsername;
-        return transactionDAO.updateStatusAndRisk(transactionId, tx.getRiskScore(),
+        boolean success = transactionDAO.updateStatusAndRisk(transactionId, tx.getRiskScore(),
                 Transaction.Status.REVIEW, notes, tx.getDecisionEngine());
+        if (success) {
+            try {
+                auditLogDAO.save(new model.AuditLog(null, "INVESTIGATION_FLAG", adminUsername, transactionId,
+                        "Flagged under investigation. Current risk: " + tx.getRiskScore()));
+            } catch (Exception e) {
+                LOGGER.warning("Failed to record audit log for investigation flag: " + e.getMessage());
+            }
+        }
+        return success;
+    }
+
+    public List<model.AuditLog> getRecentAuditLogs(int limit) throws DatabaseException {
+        return auditLogDAO.findRecent(limit);
+    }
+
+    public List<Transaction> getAllTransactions() throws DatabaseException {
+        return transactionDAO.findAll();
     }
 
     public List<FraudAlert> getAllAlerts() throws DatabaseException {

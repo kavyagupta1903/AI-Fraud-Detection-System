@@ -229,4 +229,71 @@ public class FraudDetectionSystemTest {
         int updatedFp = (Integer) adminService.getSystemMetricsSnapshot().get("falsePositives");
         assertEquals(initialFp + 1, updatedFp);
     }
+
+    @Test
+    @Order(8)
+    @DisplayName("Verify Haversine Spherical Distance & Impossible Travel Velocity Heuristics")
+    void testHaversineImpossibleTravelSpeed() {
+        // Distance between New York and London (~5570 km)
+        double distanceKm = engine.GeoLocationService.calculateDistanceKm("New York, USA", "London, UK");
+        assertTrue(distanceKm > 5000 && distanceKm < 6000, "Spherical distance should be ~5570 km");
+
+        // 1 hour to travel 5570 km is >5000 km/h -> impossible for commercial travel
+        boolean impossible = engine.GeoLocationService.isSpeedImpossible("New York, USA", "London, UK", 1.0);
+        assertTrue(impossible, "5500+ km in 1 hour must trigger impossible travel velocity flag");
+
+        // 10 hours to travel 5570 km is ~557 km/h -> plausible commercial flight
+        boolean plausible = engine.GeoLocationService.isSpeedImpossible("New York, USA", "London, UK", 10.0);
+        assertFalse(plausible, "5500 km in 10 hours is feasible for commercial jet travel");
+    }
+
+    @Test
+    @Order(9)
+    @DisplayName("Verify Statistical Z-Score Outlier Deviation & Risk Scoring")
+    void testMLStatisticalZScoreAnomaly() throws Exception {
+        MLAnomalyEngine mlEngine = new MLAnomalyEngine();
+
+        // Baseline transaction with typical amount
+        Transaction normalTx = new CreditCardTransaction("TEST-Z-NORM", 2L, new BigDecimal("120.00"), "USD",
+                "New York, US", "127.0.0.1", "fp-trusted-1", "RETAIL", "4242", "VISA", true, "10001");
+        FraudDetectionEngine.FraudEvaluationResult normalResult = mlEngine.evaluate(normalTx);
+        assertEquals(Transaction.Status.APPROVED, normalResult.getStatus());
+        assertTrue(normalResult.getRiskScore() < 0.70);
+
+        // Extreme outlier amount ($85,000) with historical statistical profile
+        Transaction outlierTx = new WireTransaction("TEST-Z-OUTLIER", 2L, new BigDecimal("85000.00"), "USD",
+                "Moscow, Russia", "194.26.29.1", "dev-fp-unknown-999", "BUSINESS",
+                "Offshore Bank", "ACCT-OUTLIER", "SWIFTOFF", "Capital transfer");
+
+        Map<String, Object> outlierContext = new HashMap<>();
+        outlierContext.put("userMeanAmount", 150.0);
+        outlierContext.put("userStdDevAmount", 25.0);
+        outlierContext.put("recentTransactionCount", 4);
+
+        FraudDetectionEngine.FraudEvaluationResult outlierResult = mlEngine.evaluate(outlierTx, outlierContext);
+        assertTrue(outlierResult.getRiskScore() >= 0.70, "Extreme Z-score anomaly must produce elevated risk score");
+        assertTrue(outlierResult.getStatus() == Transaction.Status.REVIEW || outlierResult.getStatus() == Transaction.Status.BLOCKED);
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("Verify Regulatory Audit Trail DAO Persistence and Immutability")
+    void testRegulatoryAuditLogPersistence() throws DatabaseException {
+        dao.AuditLogDAO auditLogDAO = new dao.AuditLogDAO(pool);
+
+        model.AuditLog log = new model.AuditLog(null, "COMPLIANCE_TEST", "auditor_sec",
+                "POLICY-99", "Automated compliance verification record");
+        model.AuditLog saved = auditLogDAO.save(log);
+
+        assertNotNull(saved.getAuditId(), "Saved audit log must receive generated primary key");
+
+        Optional<model.AuditLog> fetched = auditLogDAO.findById(saved.getAuditId());
+        assertTrue(fetched.isPresent());
+        assertEquals("COMPLIANCE_TEST", fetched.get().getActionType());
+        assertEquals("auditor_sec", fetched.get().getPerformedBy());
+
+        // Verify immutability constraint: update and delete operations must throw UnsupportedOperationException
+        assertThrows(UnsupportedOperationException.class, () -> auditLogDAO.update(saved));
+        assertThrows(UnsupportedOperationException.class, () -> auditLogDAO.delete(saved.getAuditId()));
+    }
 }

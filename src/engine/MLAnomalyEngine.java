@@ -44,12 +44,24 @@ public class MLAnomalyEngine implements FraudDetectionEngine {
 
         // 2. Feature Extraction & Normalization into [0.0, 1.0]
 
-        // Feature 1: Amount Anomaly Feature (Non-linear sigmoid scaling)
+        // Feature 1: Amount Anomaly Feature (Sigmoid & Z-Score Anomaly)
         double rawAmount = (tx.getAmount() != null) ? tx.getAmount().doubleValue() : 0.0;
         double baselineAmount = config.getHighAmountThreshold();
-        // Normalized ratio scaled through logistic curve
         double amountRatio = rawAmount / Math.max(1.0, baselineAmount);
         double fAmount = sigmoid((amountRatio - 1.0) * 2.5);
+
+        // Advanced Statistical Z-Score Outlier
+        double zScore = 0.0;
+        if (context != null && context.containsKey("userMeanAmount") && context.containsKey("userStdDevAmount")) {
+            double mean = ((Number) context.get("userMeanAmount")).doubleValue();
+            double stdDev = ((Number) context.get("userStdDevAmount")).doubleValue();
+            if (stdDev > 0.0) {
+                zScore = (rawAmount - mean) / stdDev;
+                if (zScore > 3.0) {
+                    fAmount = Math.max(fAmount, sigmoid(zScore - 2.0));
+                }
+            }
+        }
 
         // Feature 2: Velocity Anomaly Feature
         int recentCount = 0;
@@ -63,16 +75,36 @@ public class MLAnomalyEngine implements FraudDetectionEngine {
         double velocityRatio = (double) recentCount / Math.max(1, maxAllowed);
         double fVelocity = Math.min(1.0, Math.pow(velocityRatio, 1.5));
 
-        // Feature 3: Geographic & IP Entropy Feature
+        // Feature 3: Geographic & Impossible Travel Speed Anomaly
         String location = (tx.getLocation() != null) ? tx.getLocation().toUpperCase() : "UNKNOWN";
         double fLocation = 0.10; // baseline domestic location noise
-        if (location.contains("NG") || location.contains("LAGOS") || location.contains("KP") ||
-                location.contains("IR") || location.contains("RU") || location.contains("KY")) {
-            fLocation = 0.92; // High-risk foreign jurisdiction anomaly
-        } else if (location.contains("UNKNOWN") || location.isBlank()) {
-            fLocation = 0.55;
-        } else if (!location.contains("US") && !location.contains("CA") && !location.contains("UK")) {
-            fLocation = 0.40; // General international cross-border transfer
+        boolean impossibleTravel = false;
+        double travelSpeedKmh = 0.0;
+
+        if (context != null && context.containsKey("prevLocation") && context.containsKey("prevTimestamp")) {
+            String prevLoc = (String) context.get("prevLocation");
+            long prevTime = ((Number) context.get("prevTimestamp")).longValue();
+            long currTime = (tx.getTimestamp() != null) ? tx.getTimestamp().getTime() : System.currentTimeMillis();
+
+            GeoLocationService.TravelFeasibility feasibility =
+                    GeoLocationService.evaluateTravelVelocity(prevLoc, prevTime, location, currTime);
+
+            if (feasibility.isImpossible) {
+                impossibleTravel = true;
+                travelSpeedKmh = feasibility.speedKmh;
+                fLocation = 0.98; // Critical impossible travel penalty
+            }
+        }
+
+        if (!impossibleTravel) {
+            if (location.contains("NG") || location.contains("LAGOS") || location.contains("KP") ||
+                    location.contains("IR") || location.contains("RU") || location.contains("KY")) {
+                fLocation = 0.92; // High-risk foreign jurisdiction anomaly
+            } else if (location.contains("UNKNOWN") || location.isBlank()) {
+                fLocation = 0.55;
+            } else if (!location.contains("US") && !location.contains("CA") && !location.contains("UK")) {
+                fLocation = 0.40; // General international cross-border transfer
+            }
         }
 
         // Feature 4: Device Fingerprint & IP Reputation Feature
@@ -103,6 +135,9 @@ public class MLAnomalyEngine implements FraudDetectionEngine {
         if (fAmount > 0.7 && fLocation > 0.7) {
             compositeRisk = Math.min(1.0, compositeRisk * 1.15); // Compound risk amplifier
         }
+        if (impossibleTravel) {
+            compositeRisk = Math.max(compositeRisk, 0.95); // Impossible physical travel hard stop
+        }
 
         // 4. Feature Attribution & Explainability Breakdown
         Map<String, Double> breakdown = new HashMap<>();
@@ -113,9 +148,15 @@ public class MLAnomalyEngine implements FraudDetectionEngine {
         breakdown.put("Payment Rail Base Feature", Math.round(fRail * 100.0) / 100.0);
 
         List<String> triggeredRules = new ArrayList<>();
+        if (impossibleTravel) {
+            triggeredRules.add(String.format("IMPOSSIBLE_TRAVEL_SPEED (Speed: %,.0f km/h > 900 km/h)", travelSpeedKmh));
+        }
+        if (zScore > 3.0) {
+            triggeredRules.add(String.format("STATISTICAL_ZSCORE_OUTLIER (Z=%.2f > 3.0σ)", zScore));
+        }
         if (fAmount > 0.6) triggeredRules.add(String.format("ML_AMOUNT_ANOMALY (Score: %.2f)", fAmount));
         if (fVelocity > 0.6) triggeredRules.add(String.format("ML_VELOCITY_SPIKE (Score: %.2f)", fVelocity));
-        if (fLocation > 0.6) triggeredRules.add(String.format("ML_LOCATION_ANOMALY (Score: %.2f)", fLocation));
+        if (fLocation > 0.6 && !impossibleTravel) triggeredRules.add(String.format("ML_LOCATION_ANOMALY (Score: %.2f)", fLocation));
         if (fDevice > 0.6) triggeredRules.add(String.format("ML_UNRECOGNIZED_DEVICE (Score: %.2f)", fDevice));
         if (fRail > 0.4) triggeredRules.add(String.format("ML_PAYMENT_RAIL_RISK (Score: %.2f)", fRail));
 

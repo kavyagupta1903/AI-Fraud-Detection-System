@@ -75,6 +75,18 @@ CREATE TABLE IF NOT EXISTS fraud_alerts (
 CREATE INDEX IF NOT EXISTS idx_alert_user ON fraud_alerts(user_id);
 CREATE INDEX IF NOT EXISTS idx_alert_unread ON fraud_alerts(is_read);
 
+-- 5. AUDIT LOGS TABLE (Compliance, PCI-DSS / SOX Immutable Audit Trail)
+CREATE TABLE IF NOT EXISTS audit_logs (
+    audit_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    action_type VARCHAR(50) NOT NULL,
+    performed_by VARCHAR(50) NOT NULL,
+    target_id VARCHAR(64),
+    details TEXT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_time ON audit_logs(timestamp);
+
 -- ====================================================================
 -- SEED DATA
 -- Default Passwords:

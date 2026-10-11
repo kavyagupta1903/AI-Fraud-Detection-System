@@ -30,7 +30,7 @@ public class DBConnectionPool {
 
     private static final Logger LOGGER = Logger.getLogger(DBConnectionPool.class.getName());
 
-    private static final String DEFAULT_JDBC_URL = "jdbc:h2:./data/fraud_db;DB_CLOSE_DELAY=-1";
+    private static final String DEFAULT_JDBC_URL = "jdbc:h2:./data/fraud_db;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1";
     private static final String DEFAULT_USER = "sa";
     private static final String DEFAULT_PASSWORD = "";
     private static final int DEFAULT_MIN_CONNECTIONS = 5;
