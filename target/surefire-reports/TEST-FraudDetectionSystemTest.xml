@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="FraudDetectionSystemTest" time="1.039" tests="10" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="26"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\kvy19\OneDrive\Desktop\java project\target\test-classes;C:\Users\kvy19\OneDrive\Desktop\java project\target\classes;C:\Users\kvy19\.m2\repository\com\h2database\h2\2.3.232\h2-2.3.232.jar;C:\Users\kvy19\.m2\repository\jakarta\servlet\jakarta.servlet-api\6.0.0\jakarta.servlet-api-6.0.0.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.28\tomcat-embed-core-10.1.28.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\tomcat-annotations-api\10.1.28\tomcat-annotations-api-10.1.28.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\embed\tomcat-embed-jasper\10.1.28\tomcat-embed-jasper-10.1.28.jar;C:\Users\kvy19\.m2\repository\org\eclipse\jdt\ecj\3.33.0\ecj-3.33.0.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.28\tomcat-embed-el-10.1.28.jar;C:\Users\kvy19\.m2\repository\jakarta\servlet\jsp\jstl\jakarta.servlet.jsp.jstl-api\3.0.0\jakarta.servlet.jsp.jstl-api-3.0.0.jar;C:\Users\kvy19\.m2\repository\jakarta\el\jakarta.el-api\5.0.0\jakarta.el-api-5.0.0.jar;C:\Users\kvy19\.m2\repository\org\glassfish\web\jakarta.servlet.jsp.jstl\3.0.1\jakarta.servlet.jsp.jstl-3.0.1.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.3\junit-jupiter-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.3\junit-jupiter-api-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\kvy19\.m2\repository\org\junit\platform\junit-platform-commons\1.10.3\junit-platform-commons-1.10.3.jar;C:\Users\kvy19\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.3\junit-jupiter-params-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.3\junit-jupiter-engine-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\junit\platform\junit-platform-engine\1.10.3\junit-platform-engine-1.10.3.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Calcutta"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="26"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-26.0.2\bin"/>
+    <property name="sun.java.command" value="C:\Users\kvy19\AppData\Local\Temp\surefire4838601354788096792\surefirebooter-20261011190621761_3.jar C:\Users\kvy19\AppData\Local\Temp\surefire4838601354788096792 2026-10-11T19-06-21_364-jvmRun1 surefire-20261011190621761_1tmp surefire_0-20261011190621761_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\kvy19\OneDrive\Desktop\java project\target\test-classes;C:\Users\kvy19\OneDrive\Desktop\java project\target\classes;C:\Users\kvy19\.m2\repository\com\h2database\h2\2.3.232\h2-2.3.232.jar;C:\Users\kvy19\.m2\repository\jakarta\servlet\jakarta.servlet-api\6.0.0\jakarta.servlet-api-6.0.0.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.28\tomcat-embed-core-10.1.28.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\tomcat-annotations-api\10.1.28\tomcat-annotations-api-10.1.28.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\embed\tomcat-embed-jasper\10.1.28\tomcat-embed-jasper-10.1.28.jar;C:\Users\kvy19\.m2\repository\org\eclipse\jdt\ecj\3.33.0\ecj-3.33.0.jar;C:\Users\kvy19\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.28\tomcat-embed-el-10.1.28.jar;C:\Users\kvy19\.m2\repository\jakarta\servlet\jsp\jstl\jakarta.servlet.jsp.jstl-api\3.0.0\jakarta.servlet.jsp.jstl-api-3.0.0.jar;C:\Users\kvy19\.m2\repository\jakarta\el\jakarta.el-api\5.0.0\jakarta.el-api-5.0.0.jar;C:\Users\kvy19\.m2\repository\org\glassfish\web\jakarta.servlet.jsp.jstl\3.0.1\jakarta.servlet.jsp.jstl-3.0.1.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.3\junit-jupiter-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.3\junit-jupiter-api-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\kvy19\.m2\repository\org\junit\platform\junit-platform-commons\1.10.3\junit-platform-commons-1.10.3.jar;C:\Users\kvy19\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.3\junit-jupiter-params-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.3\junit-jupiter-engine-5.10.3.jar;C:\Users\kvy19\.m2\repository\org\junit\platform\junit-platform-engine\1.10.3\junit-platform-engine-1.10.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\kvy19"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-07-21"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-26.0.2"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\kvy19\OneDrive\Desktop\java project"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\kvy19\AppData\Local\Temp\surefire4838601354788096792\surefirebooter-20261011190621761_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="26.0.2+10-55"/>
+    <property name="user.name" value="kvy19"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\kvy19\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\kvy19\AppData\Local\Temp\"/>
+    <property name="java.version" value="26.0.2"/>
+    <property name="user.dir" value="C:\Users\kvy19\OneDrive\Desktop\java project"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-26.0.2\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Users/kvy19/.gemini/antigravity/bin;C:\Users\kvy19\AppData\Roaming\Antigravity\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\MinGW\bin;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\Java\jdk-26.0.2\bin;C:\Program Files\dotnet\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\kvy19\AppData\Local\Microsoft\WindowsApps;C:\Users\kvy19\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\kvy19\AppData\Local\Python\bin;C:\Users\kvy19\AppData\Roaming\npm;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="26.0.2+10-55"/>
+    <property name="stdin.encoding" value="Cp1252"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="70.0"/>
+  </properties>
+  <testcase name="testOOPPolymorphism" classname="FraudDetectionSystemTest" time="0.044">
+    <system-err><![CDATA[Oct 11, 2026 7:06:22 PM config.DBConnectionPool initializePool
+INFO: Initializing DB Connection Pool: url=jdbc:h2:./data/fraud_db;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1, min=5, max=20
+Oct 11, 2026 7:06:23 PM config.DBConnectionPool initializeSchema
+INFO: Database schema initialized and seed data verified successfully.
+Oct 11, 2026 7:06:23 PM config.AppConfig refreshFromDatabase
+INFO: AppConfig refreshed from database: 10 parameters loaded.
+]]></system-err>
+  </testcase>
+  <testcase name="testEnginesAndFactory" classname="FraudDetectionSystemTest" time="0.018"/>
+  <testcase name="testGenericDAOOperations" classname="FraudDetectionSystemTest" time="0.01"/>
+  <testcase name="testExceptionHierarchy" classname="FraudDetectionSystemTest" time="0.003"/>
+  <testcase name="testAsyncProducerConsumerPipeline" classname="FraudDetectionSystemTest" time="0.208">
+    <system-err><![CDATA[Oct 11, 2026 7:06:23 PM thread.TransactionQueue startWorkers
+INFO: Starting Transaction Consumer Worker Pool with 2 threads...
+Oct 11, 2026 7:06:23 PM thread.FraudEvaluationWorker run
+INFO: FraudEvaluationWorker [FraudWorker-48] started.
+Oct 11, 2026 7:06:23 PM thread.FraudEvaluationWorker run
+INFO: FraudEvaluationWorker [FraudWorker-47] started.
+Oct 11, 2026 7:06:23 PM thread.FraudEvaluationWorker evaluateAndPersist
+INFO: Async Evaluation Finished for TX: TEST-ASYNC-1791725783438 in 5ms | Engine: ML_ANOMALY | Risk: 0.12 | Status: APPROVED
+]]></system-err>
+  </testcase>
+  <testcase name="testPriorityAlertTriage" classname="FraudDetectionSystemTest" time="0.005"/>
+  <testcase name="testAdminReviewAndFalsePositiveTracking" classname="FraudDetectionSystemTest" time="0.017"/>
+  <testcase name="testHaversineImpossibleTravelSpeed" classname="FraudDetectionSystemTest" time="0.006"/>
+  <testcase name="testMLStatisticalZScoreAnomaly" classname="FraudDetectionSystemTest" time="0.003"/>
+  <testcase name="testRegulatoryAuditLogPersistence" classname="FraudDetectionSystemTest" time="0.006"/>
+</testsuite>
